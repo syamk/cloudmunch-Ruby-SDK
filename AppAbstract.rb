@@ -9,27 +9,27 @@ require_relative "AppContext"
 class AppAbstract
     include CloudmunchService
     include Util
-    include UtilJira
 
     @@config_path = ENV["SDK_CONFIG_PATH"]+"/sdk_config.json"
     @@config = nil
 
     @@appLevelConstant = 0
-
-
-    def logInit(log_level)
-        @logger = Util.logInit()
-        @log_level = log_level
+    def initialize()
+        @domain, @project, @logfile = "", "", ""
     end
 
-    def logIt(level,logString)
-        Util.logIt(@logger, @log_level, level, logString)
+    def getDomain
+        @domain
     end
-    
-    def logClose()
-        Util.logClose(@logger)
+
+    def getProject
+        @project
     end
-    
+
+    def getLogfile
+        @logfile
+    end
+
     def getServerName
         @@masterServerName
     end
@@ -38,7 +38,9 @@ class AppAbstract
         @@masterEndpoint
     end
 
-
+    def self.appLevelConstant()
+        return @@appLevelConstant
+    end
 
     def logInit(logfile)
         @logger = Util.logInit(logfile)
@@ -102,33 +104,34 @@ class AppAbstract
         return CloudmunchService.updateDataContext(appContext.get_data('masterurl'), @@config['endpoint'], params)
     end
 
+
     def getActiveSprint(param)
         params = {
-            :username => @@config['username']
+            "username" => @@config['username']
         }
-        puts params.to_s
+
         params = param.merge(params)
-        UtilJira.getActiveSprint(@@config['master_url'], @@config['endpoint'], params)
+        Util.getActiveSprint(@@config['master_url'], @@config['endpoint'], params)
     end
 
     def getSortedSprints(param)
         params = {
-            :username => @@config['username']
+            "username" => @@config['username']
         }
 
         params = param.merge(params)
 
-        UtilJira.getSortedSprints(@@config['master_url'], @@config['endpoint'], params)
+        Util.getSortedSprints(@@config['master_url'], @@config['endpoint'], params)
     end
 
     def getUrlForViewCards(param)
         params = {
-            :username => @@config['username']
+            "username" => @@config['username']
         }
 
         params = param.merge(params)
 
-        UtilJira.getUrlForViewCards(@@config['master_url'], @@config['endpoint'], params)
+        Util.getUrlForViewCards(@@config['master_url'], @@config['endpoint'], params)
     end
 
     def getCMContext(context)
