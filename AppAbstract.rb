@@ -55,7 +55,7 @@ class AppAbstract
     end
 
     def getJSONArgs()
-        Util.getJSONArgs()
+        @json_input = Util.getJSONArgs()
     end
 
     def openJSONFile(fileNameWithPath)
