@@ -66,14 +66,14 @@ class AppAbstract
         Util.generateReport(reportFilename, reportString)
     end
     
-    def getServiceProvider()
+    def getServiceProvider(param = nil)
         @json_input = @json_input ? @json_input : getJSONArgs()
         serviceProvider = ServiceProvider.new(@json_input["providername"])
         serviceProvider.load_data(@json_input)
         return serviceProvider
     end
     
-    def getAppContext()
+    def getAppContext(param = nil)
         @json_input = @json_input ? @json_input : getJSONArgs()
         appContext = AppContext.new(@json_input)
         return appContext
