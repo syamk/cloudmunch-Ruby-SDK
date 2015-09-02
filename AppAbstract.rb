@@ -14,7 +14,7 @@ class AppAbstract
     @@config = nil
 
     @@appLevelConstant = 0
-    def initialize()
+    def initialize(param = nil)
         @domain, @project, @logfile = "", "", ""
     end
 
