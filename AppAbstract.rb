@@ -69,7 +69,7 @@ class AppAbstract
         appContext = getAppContext()
         params = {
             "username" => @@config['username'],
-            "customcontext" => param["project"] + "_" + param["context"],
+            "customcontext" => param["job"] + "_" + param["context"],
             "action" => "listcustomcontext"
         }
         param.delete("context")
@@ -82,7 +82,7 @@ class AppAbstract
         appContext = getAppContext()
         params = {
             "username" => @@config['username'],
-            "customcontext" => param["project"] + "_" + param["context"],
+            "customcontext" => param["job"] + "_" + param["context"],
             "action" => "updatecustomcontext"
         }
         param.delete("context")
