@@ -13,42 +13,28 @@ class AppAbstract
     @@config_path = ENV["SDK_CONFIG_PATH"]+"/sdk_config.json"
     @@config = nil
 
-    @@appLevelConstant = 0
     def initialize(param = nil)
         @domain, @project, @logfile = "", "", ""
     end
 
-    def getDomain
-        @domain
-    end
 
-    def getProject
-        @project
-    end
 
-    def getLogfile
-        @logfile
-    end
 
-    def getServerName
-        @@masterServerName
-    end
 
-    def getServerEndpoint
-        @@masterEndpoint
-    end
 
-    def self.appLevelConstant()
-        return @@appLevelConstant
-    end
 
-    def logInit(logfile)
-        @logger = Util.logInit(logfile)
+    def logInit(log_level)
+        @logger = @logger ? @logger : Util.logInit()
+        @log_level = log_level
     end
 
     def log(level,logString)
-        Util.log(@logger, level, logString)
+        if !@logger.nil?
+            logInit("DEBUG")
+        end     
+        Util.logIt(@logger, @log_level, level, logString)
     end
+
 
     def logClose()
         Util.logClose(@logger)
@@ -105,34 +91,34 @@ class AppAbstract
     end
 
 
-    def getActiveSprint(param)
-        params = {
-            "username" => @@config['username']
-        }
+#    def getActiveSprint(param)
+#        params = {
+#            "username" => @@config['username']
+#        }
 
-        params = param.merge(params)
-        Util.getActiveSprint(@@config['master_url'], @@config['endpoint'], params)
-    end
-
-    def getSortedSprints(param)
-        params = {
-            "username" => @@config['username']
-        }
-
-        params = param.merge(params)
-
-        Util.getSortedSprints(@@config['master_url'], @@config['endpoint'], params)
-    end
-
-    def getUrlForViewCards(param)
-        params = {
-            "username" => @@config['username']
-        }
-
-        params = param.merge(params)
-
-        Util.getUrlForViewCards(@@config['master_url'], @@config['endpoint'], params)
-    end
+#        params = param.merge(params)
+#        Util.getActiveSprint(@@config['master_url'], @@config['endpoint'], params)
+#    end
+#
+#    def getSortedSprints(param)
+#        params = {
+#           "username" => @@config['username']
+#        }
+#
+#        params = param.merge(params)
+#
+#        Util.getSortedSprints(@@config['master_url'], @@config['endpoint'], params)
+#    end
+#
+#    def getUrlForViewCards(param)
+#        params = {
+#            "username" => @@config['username']
+#        }
+#
+#        params = param.merge(params)
+#
+#        Util.getUrlForViewCards(@@config['master_url'], @@config['endpoint'], params)
+#    end
 
     def getCMContext(context)
         begin

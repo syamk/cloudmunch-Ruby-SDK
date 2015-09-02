@@ -2,7 +2,7 @@
 
 require 'net/http'
 require 'cgi'
-require 'faraday'
+
 require_relative "Util"
 
 module CloudmunchService
@@ -29,7 +29,7 @@ module CloudmunchService
        return Net::HTTP.get(server, path)
       else
          queryStr =  "#{path}?".concat(params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&'))
-         puts("!!DEBUG "+ server+queryStr)
+         log("DEBUG", "Calling URL " + server+queryStr)
          uri = URI(server + "/" + queryStr)
          return Net::HTTP.get(uri) 
       end
@@ -37,7 +37,7 @@ module CloudmunchService
    
    def self.http_post(server,path,params)
         queryStr =  "#{path}?".concat(params.collect { |k,v| "#{k}=#{CGI::escape(v.to_s)}" }.join('&'))
-        puts("!!DEBUG "+ server+queryStr)
+        log("DEBUG", "Calling URL " + server+queryStr)
         if params.nil?
             return Net::HTTP.post(server, path)
         else
@@ -52,6 +52,6 @@ module CloudmunchService
 
 
    def self.updateDataContext(server, endpoint, param)
-   		putCustomDataContext(server, endpoint, param)  
+      putCustomDataContext(server, endpoint, param)  
    end
 end
